@@ -1,0 +1,7 @@
+CREATE TABLE error_event (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  occurred_at TIMESTAMP NOT NULL,
+  message VARCHAR(1000) NOT NULL,
+  details TEXT,
+  origin VARCHAR(255),
+  processed BOOLEAN DEFAULT FALSE
