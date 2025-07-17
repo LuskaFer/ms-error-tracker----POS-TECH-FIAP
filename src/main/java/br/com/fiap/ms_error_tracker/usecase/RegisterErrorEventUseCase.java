@@ -1,9 +1,8 @@
 package br.com.fiap.ms_error_tracker.usecase;
 
-import org.springframework.stereotype.Service;
-
 import br.com.fiap.ms_error_tracker.domain.ErrorEvent;
 import br.com.fiap.ms_error_tracker.domain.ErrorEventRepository;
+import org.springframework.stereotype.Service;
 
 @Service
 public class RegisterErrorEventUseCase {
@@ -14,7 +13,10 @@ public class RegisterErrorEventUseCase {
         this.repository = repository;
     }
 
-    public void register(ErrorEvent event) {
-        repository.save(event);
+
+    // É aqui o usecase que regstra o evento no banco
+
+    public ErrorEvent register(ErrorEvent event) {
+        return repository.save(event);
     }
 }

@@ -4,6 +4,7 @@ import br.com.fiap.ms_error_tracker.domain.ErrorEvent;
 import br.com.fiap.ms_error_tracker.domain.ErrorEventRepository;
 import br.com.fiap.ms_error_tracker.gateway.database.jpa.interfaces.JpaErrorEventRepository;
 import org.springframework.stereotype.Component;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,22 +19,41 @@ public class ErrorEventRepositoryAdapter implements ErrorEventRepository {
 
     @Override
     public ErrorEvent save(ErrorEvent event) {
+
         ErrorEventEntity entity = toEntity(event);
-        entity = jpaRepo.save(entity);
-        return toDomain(entity);
+
+        ErrorEventEntity saved = jpaRepo.save(entity);
+
+        return toDomain(saved);
     }
 
     @Override
     public List<ErrorEvent> findAll() {
-        return jpaRepo.findAll().stream()
+        return jpaRepo.findAll()
+                .stream()
                 .map(this::toDomain)
                 .collect(Collectors.toList());
     }
 
-    // métodos de conversão
     private ErrorEvent toDomain(ErrorEventEntity e) {
-        /* ... */ }
+        return ErrorEvent.builder()
+                .id(e.getId())
+                .occurredAt(e.getOccurredAt())
+                .message(e.getMessage())
+                .details(e.getDetails())
+                .origin(e.getOrigin())
+                .processed(e.isProcessed())
+                .build();
+    }
 
     private ErrorEventEntity toEntity(ErrorEvent e) {
-        /* ... */ }
+        return ErrorEventEntity.builder()
+                .id(e.getId())
+                .occurredAt(e.getOccurredAt())
+                .message(e.getMessage())
+                .details(e.getDetails())
+                .origin(e.getOrigin())
+                .processed(e.isProcessed())
+                .build();
+    }
 }
